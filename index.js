@@ -1,7 +1,7 @@
 'use strict';
 var gutil = require('gulp-util');
 var through = require('through2');
-var _ = require('lodash');
+var _ = require('underscore');
 var template = _.template;
 
 function compile(options, data, render) {
@@ -18,7 +18,7 @@ function compile(options, data, render) {
 
 		try {
 			var tpl = template(file.contents.toString(), options);
-			file.contents = new Buffer(render ? tpl(_.merge({}, file.data, data)) : tpl.toString());
+			file.contents = new Buffer(render ? tpl(_.extend({}, file.data, data)) : tpl.toString());
 			this.push(file);
 		} catch (err) {
 			this.emit('error', new gutil.PluginError('gulp-template', err, {fileName: file.path}));
